@@ -1,0 +1,128 @@
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+  
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">All students</h6>
+        </div>
+        <div class="card-body">
+
+            <a  routerLink="/admin/addstudent" style="float: right" class="btn btn-primary" >Add Student</a>
+
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>First_Name</th>
+                            <th>Last_Name</th>
+                            <th>Age</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        <tr *ngFor="let item of dataArray ;index as i">
+                            <td>{{item.firstname}}</td>
+                            <td>{{item.lastname}}</td>
+                            <td>{{item.email}}</td>
+                            <td>{{item.age}}</td>
+                            <td>{{item.phone}}</td>
+                            <td>
+                                <button class="btn btn-success" data-toggle="modal" data-target="#exampleModal" (click)="getdata(item.firstname,item.lastname,item.email,item.age,item.phone,item._id)">Update</button>
+                                <button class="btn btn-info" (click)="details(item._id)">Details</button>
+                                <button class="btn btn-danger" (click)="delete(item._id,i)">Delete</button>
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+
+                   
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Student :</h5>
+          <button type="button" class=" close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form #f="ngForm" (ngSubmit)="updateStudent(f)">
+    
+                <div class="form-group">
+                  <label for="exampleFormControlInput1">First Name</label>
+                  <input type="text" class="form-control" id="firstname" placeholder="firstname" [(ngModel)]="dataStudent.firstname" required name="firstname" #firstname="ngModel" minlength="2" maxlength="20" ngModel>
+                </div>
+                <div class="alert alert-danger" *ngIf="firstname.errors?.['required'] && firstname.touched ">
+                    FirstName is required
+                </div>
+                <div class="class alert alert-danger" *ngIf="firstname.errors?.['minlength'] && firstname.touched">
+                    FirstName must be minimum 2 caractere
+                  </div>
+                
+                  <div class="form-group">
+                    <label for="exampleFormControlInput1">Last Name</label>
+                    <input type="text" class="form-control" id="lastname" placeholder="lastname" [(ngModel)]="dataStudent.lastname" required name="lastname" #lastname="ngModel" minlength="2" maxlength="20" ngModel>
+                  </div>
+                  <div class="alert alert-danger" *ngIf="lastname.errors?.['required'] && lastname.touched ">
+                    LastName is required
+                </div>
+                <div class="class alert alert-danger" *ngIf="lastname.errors?.['minlength'] && lastname.touched">
+                    LastName must be minimum 2 caractere
+                </div>
+                
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="email" [(ngModel)]="dataStudent.email" required name="email" #email="ngModel" email ngModel>
+                </div>
+                <div class="alert alert-danger" *ngIf="email.errors?.['required'] && email.touched ">
+                  Email is required
+                </div>
+                <div class="class alert alert-danger" *ngIf="email.errors?.['email'] && email.touched">
+                  Email must email form
+                </div>
+            
+                <div class="form-group">
+                  <label for="exampleFormControlInput1">Age</label>
+                  <input type="number" class="form-control" id="age" placeholder="age" [(ngModel)]="dataStudent.age" required name="age" #age="ngModel" ngModel>
+                </div>
+                <div class="alert alert-danger" *ngIf="age.errors?.['required'] && age.touched ">
+                  Age is required
+                </div>
+                  
+                <div class="form-group">
+                  <label for="exampleFormControlInput1">Phone</label>
+                  <input type="number" class="form-control" id="phone" placeholder="phone" [(ngModel)]="dataStudent.phone" required name="phone" #phone="ngModel" ngModel>
+                </div>
+                <div class="alert alert-danger" *ngIf="phone.errors?.['required'] && phone.touched ">
+                  Phone is required
+                </div>
+                
+                <div class="alert alert-success" *ngIf="messageSuccess">
+                  {{messageSuccess}}
+                </div>
+                <button class="btn btn-primary" >Update Student</button>
+                
+                
+              </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
